@@ -20,65 +20,94 @@ This project scrapes job postings from Glassdoor, engineers features from job de
 **Python Version:** 3.13 
 **Packages:** `pandas`, `numpy`, `sklearn`, `matplotlib`, `seaborn`, `selenium`, `flask`, `json`, `pickle`  
 
-##🕸 Web Scraping
+---
 
-Tweaked the scraper to scrape 1000+ Glassdoor job postings. For each job, we collected:
+## 🕸 Web Scraping
 
-Job title
-Salary Estimate
-Job Description
-Rating
-Company Name
-Location & Headquarters
-Company Size & Founded Date
-Type of Ownership
-Industry, Sector, Revenue, Competitors
+The project uses a web scraper to collect **1000+ job postings** from Glassdoor. For each job posting, the following information was collected:
 
-##🧹 Data Cleaning
+- Job Title  
+- Salary Estimate  
+- Job Description  
+- Rating  
+- Company Name  
+- Location & Headquarters  
+- Company Size & Founded Date  
+- Type of Ownership  
+- Industry, Sector, Revenue  
+- Competitors  
 
--After scraping, the following transformations were applied:
--Parsed numeric salary data; removed rows without salary
--Created columns for employer-provided salaries and hourly wages
--Extracted company rating
--Added company_state column and whether job is at HQ
--Calculated company_age from founded date
--Skill columns: Python, R, Excel, AWS, Spark
--Simplified job title & seniority
--Calculated job description length
+---
 
-##📊 Exploratory Data Analysis (EDA)
+## 🧹 Data Cleaning
 
-Explored distributions of numerical variables and value counts of categorical features
+After scraping, the following data cleaning and transformation steps were performed:
 
-Analyzed pivot tables to identify trends across job title, company, and location
+- Parsed numeric salary data and removed rows without salary information  
+- Created columns for employer-provided salaries and hourly wages  
+- Extracted company ratings  
+- Added `company_state` column and whether the job is at HQ  
+- Calculated `company_age` from founded date  
+- Created skill indicator columns: Python, R, Excel, AWS, Spark  
+- Simplified job titles and seniority levels  
+- Calculated job description length  
 
-##🤖 Model Building
+---
 
--Converted categorical variables into dummy variables
--Split data: 70% train, 30% test
--Evaluated models using Mean Absolute Error (MAE)
+## 📊 Exploratory Data Analysis (EDA)
 
-**Models Tested:**
+- Explored distributions of numerical variables and value counts of categorical features  
+- Analyzed pivot tables to identify trends across job title, company, and location  
 
-Multiple Linear Regression – Baseline
+---
 
-Lasso Regression – For sparse categorical data
+## 🤖 Model Building
 
-Random Forest Regression – Best performance on sparse data
+### Steps:
 
-Model Performance:
+1. Converted categorical variables into dummy variables  
+2. Split data: 70% training, 30% testing  
+3. Evaluated models using **Mean Absolute Error (MAE)**  
 
-Model	MAE ($)
-Random Forest	15.58
-Linear Regression	20.88
-Lasso Regression	19.36
+### Models Tested:
 
-Random Forest clearly outperformed the other models and was chosen for production.
+| Model                     | MAE ($) |
+|----------------------------|---------|
+| Multiple Linear Regression | 20.88   |
+| Lasso Regression           | 19.36   |
+| Random Forest Regression   | 15.58   |
 
-##🚀 Productionization
+> **Random Forest Regression** outperformed the other models and was chosen for production.
 
-**Built a Flask API endpoint hosted on a local webserver**
+---
 
-API accepts job listing data and returns estimated salary
+## 🚀 Productionization
+
+- Built a **Flask API** endpoint hosted on a local web server  
+- The API accepts job listing data as input and returns the **predicted salary**  
+
+### Example API Usage:
+
+```python
+import requests
+
+url = "http://127.0.0.1:5000/predict"
+job_data = {
+    "job_title": "Data Scientist",
+    "company_name": "ABC Corp",
+    "location": "New York, NY",
+    "job_description": "...",
+    "rating": 4.5,
+    "size": "100-500",
+    "founded": 2005,
+    "ownership": "Private",
+    "industry": "IT Services",
+    "sector": "Technology",
+    "revenue": "$50M-$100M",
+    "skills": ["Python", "AWS"]
+}
+
+response = requests.post(url, json=job_data)
+print(response.json())  # Returns estimated salary
 
 
