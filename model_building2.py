@@ -52,7 +52,7 @@ print(results.summary())
 lm = LinearRegression()
 lm.fit(X_train, y_train)
 print("Linear Regression CV MAE:",
-      np.mean(cross_val_score(lm, X_train, y_train, scoring='neg_mean_absolute_error', cv=3)))
+      np.mean(cross_val_score(lm, X_train, y_train, scoring='mean_absolute_error', cv=3)))
 
 # -------------------------------------------------------------
 # 6. LASSO REGRESSION
@@ -60,7 +60,7 @@ print("Linear Regression CV MAE:",
 lm_l = Lasso(alpha=0.13)
 lm_l.fit(X_train, y_train)
 print("Lasso CV MAE:",
-      np.mean(cross_val_score(lm_l, X_train, y_train, scoring='neg_mean_absolute_error', cv=3)))
+      np.mean(cross_val_score(lm_l, X_train, y_train, scoring='mean_absolute_error', cv=3)))
 
 # -------------------------------------------------------------
 # 7. FIND BEST LASSO ALPHA
@@ -71,7 +71,7 @@ error = []
 for i in range(1, 100):
     a = i / 100
     lml = Lasso(alpha=a)
-    err = np.mean(cross_val_score(lml, X_train, y_train, scoring='neg_mean_absolute_error', cv=3))
+    err = np.mean(cross_val_score(lml, X_train, y_train, scoring='mean_absolute_error', cv=3))
     alpha.append(a)
     error.append(err)
 
@@ -89,7 +89,7 @@ print("Best Alpha:", df_err.loc[df_err['error'].idxmax()])
 # -------------------------------------------------------------
 rf = RandomForestRegressor(random_state=42)
 print("Random Forest CV MAE:",
-      np.mean(cross_val_score(rf, X_train, y_train, scoring='neg_mean_absolute_error', cv=3)))
+      np.mean(cross_val_score(rf, X_train, y_train, scoring='mean_absolute_error', cv=3)))
 
 # -------------------------------------------------------------
 # 9. GRID SEARCH CV FOR RANDOM FOREST
@@ -100,7 +100,7 @@ parameters = {
     'max_features': ('auto', 'sqrt', 'log2')
 }
 
-gs = GridSearchCV(rf, parameters, scoring='neg_mean_absolute_error', cv=3, n_jobs=-1)
+gs = GridSearchCV(rf, parameters, scoring='mean_absolute_error', cv=3, n_jobs=-1)
 gs.fit(X_train, y_train)
 
 print("Best GridSearchCV Score:", gs.best_score_)
@@ -133,3 +133,4 @@ with open('model_file.p', 'rb') as pickled:
 
 sample_pred = model.predict(np.array(list(X_test.iloc[1, :])).reshape(1, -1))
 print("Sample Prediction:", sample_pred)
+
