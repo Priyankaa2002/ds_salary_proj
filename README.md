@@ -1,6 +1,6 @@
 # Data Science Salary Estimator
 
-A tool that estimates **Data Science salaries** to help professionals negotiate their income when they get a job offer. The model achieves a **Mean Absolute Error (MAE) of ~$11K** on unseen data.
+A tool that estimates **Data Science salaries** to help professionals negotiate their income when they get a job offer. The model achieves a **Mean Absolute Error (MAE) of ~$15K** on unseen data.
 
 ---
 
@@ -66,7 +66,7 @@ After scraping, the following data cleaning and transformation steps were perfor
 ### Steps:
 
 1. Converted categorical variables into dummy variables  
-2. Split data: 70% training, 30% testing  
+2. Split data: 80% training, 20% testing  
 3. Evaluated models using **Mean Absolute Error (MAE)**  
 
 ### Models Tested:
